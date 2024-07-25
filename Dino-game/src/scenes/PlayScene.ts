@@ -1,8 +1,15 @@
 //import Phaser  from "phaser";
+import { Player } from "../entities/Player";
  class PlayScene extends Phaser.Scene{
-    player:Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
+   
+    player:Player;
+    ground:Phaser.GameObjects.TileSprite;
+    startTrigger:Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
     get gameHeight(){
         return this.game.config.height as number;
+      }
+      get gameWidth(){
+        return this.game.config.width as number;
       }
     constructor(){
         super('playScene');
@@ -10,28 +17,47 @@
     }
 
 create(){
+   
 this.createEnvironment();
 this.createPlayer();
-this.registerPlayerControl();
 
+this.startTrigger= this.physics.add.sprite(0,10,null)
+.setOrigin(0,1)
+.setAlpha(0);
+this.physics.add.overlap(this.startTrigger,this.player,()=>{
+   if(this.startTrigger.y==10){
+    this.startTrigger.body.reset(0,this.gameHeight);
+    console.log('triggering upper triiger')
+    return;
+   }
+   this.startTrigger.body.reset(999,9999)
+  this.time.addEvent({
+    delay:1000/60,
+    loop:true,
+    callback:()=>{
+        if(this.ground.width<=this.gameWidth){
+            console.log('increasing')
+            this.ground.width+=17*2;
+        }
+    
+    }
+  })
+   
+})
 }
 createPlayer(){
-  this.player=  this.physics.add.sprite(0,this.gameHeight,'dino-idle').setOrigin(0,1);
-this.player 
-.setGravityY(5000)
-.setCollideWorldBounds(true)
-.setBodySize(44,92)
+    this.player = new Player(this, 0, this.gameHeight);
+    
 }
 createEnvironment(){
-    this.add
+  this.ground=  this.add
     .tileSprite(0,this.gameHeight,88,26,'ground')
     .setOrigin(0,1)
 }
-registerPlayerControl(){
-    const spaceBar=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    spaceBar.on('down',()=>{
-        this.player.setVelocityY(-1600);
-    })
+update(time:number,delta:number):void{
+ 
+
 }
+
  }
  export default  PlayScene;
