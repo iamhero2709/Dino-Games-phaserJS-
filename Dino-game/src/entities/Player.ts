@@ -15,6 +15,7 @@ this.scene.events.on(Phaser.Scenes.Events.UPDATE,this.update,this);
         .setCollideWorldBounds(true)
         .setBodySize(44,92);
         this.registerPlayerControl();
+        this.registerAnimation()
     }
     registerPlayerControl(){
         const spaceBar=this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -31,5 +32,16 @@ this.scene.events.on(Phaser.Scenes.Events.UPDATE,this.update,this);
        if(space.isDown &&onFloor){
         this.setVelocityY(-1600);
        }
+    }
+    playRunAnimation(){
+        this.play('dino-run-anim',true)
+    }
+    registerAnimation(){
+ this.anims.create({
+    key:'dino-run-anim',
+    frames:this.anims.generateFrameNumbers('dino-run',{start:2,end:3}),
+    frameRate:10,
+    repeat:-1,
+ });
     }
 }
