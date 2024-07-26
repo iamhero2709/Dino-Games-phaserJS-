@@ -31,15 +31,18 @@ this.physics.add.overlap(this.startTrigger,this.player,()=>{
     return;
    }
    this.startTrigger.body.reset(999,9999)
-  this.time.addEvent({
+  const rollOutEvent=this.time.addEvent({
     delay:1000/60,
     loop:true,
-    callback:()=>{
-        if(this.ground.width<=this.gameWidth){
-            console.log('increasing')
-            this.ground.width+=17*2;
-        }
-    
+    callback:()=>{ 
+      this.player.setVelocityX(80);
+          this.ground.width+=17*2;
+      if(this.ground.width>=this.gameWidth){
+     rollOutEvent.remove();
+     this.ground.width=this.gameWidth
+     this.player.setVelocityX(0);
+   
+      }
     }
   })
    
