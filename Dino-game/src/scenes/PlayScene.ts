@@ -5,6 +5,7 @@ import { Player } from "../entities/Player";
     player:Player;
     ground:Phaser.GameObjects.TileSprite;
     startTrigger:Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+    isGameRunning:boolean=false;
     get gameHeight(){
         return this.game.config.height as number;
       }
@@ -42,6 +43,7 @@ this.physics.add.overlap(this.startTrigger,this.player,()=>{
      rollOutEvent.remove();
      this.ground.width=this.gameWidth
      this.player.setVelocityX(0);
+     this.isGameRunning=true;
    
       }
     }
@@ -58,6 +60,7 @@ createEnvironment(){
     .tileSprite(0,this.gameHeight,88,26,'ground')
     .setOrigin(0,1)
 }
+
 update(time:number,delta:number):void{
  
 

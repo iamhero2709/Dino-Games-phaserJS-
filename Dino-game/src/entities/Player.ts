@@ -32,10 +32,14 @@ this.scene.events.on(Phaser.Scenes.Events.UPDATE,this.update,this);
        if(space.isDown &&onFloor){
         this.setVelocityY(-1600);
        }
-       if(this.body.deltaAbsY()>0){
+       if(!(this.scene as any).isGameRunning){
+      return;
+       }
+              if(this.body.deltaAbsY()>0){
         this.anims.stop()
         this.setTexture('dino-run',0);
        }else{
+        
         this.playRunAnimation();
        }
     }
